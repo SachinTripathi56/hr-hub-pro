@@ -10,33 +10,116 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmployeeRouteImport } from './routes/employee'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as HrRouteImport } from './routes/hr'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as EmployeeIndexRouteImport } from './routes/employee.index'
+import { Route as HrIndexRouteImport } from './routes/hr.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmployeeRoute = EmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrRoute = HrRouteImport.update({
+  id: '/hr',
+  path: '/hr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployeeIndexRoute = EmployeeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmployeeRoute,
+} as any)
+const HrIndexRoute = HrIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HrRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/employee': typeof EmployeeRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/hr': typeof HrRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/employee/': typeof EmployeeIndexRoute
+  '/hr/': typeof HrIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/employee': typeof EmployeeIndexRoute
+  '/hr': typeof HrIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/employee': typeof EmployeeRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/hr': typeof HrRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/employee/': typeof EmployeeIndexRoute
+  '/hr/': typeof HrIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/employee'
+    | '/forgot-password'
+    | '/hr'
+    | '/login'
+    | '/register'
+    | '/employee/'
+    | '/hr/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/forgot-password' | '/login' | '/register' | '/employee' | '/hr'
+  id:
+    | '__root__'
+    | '/'
+    | '/employee'
+    | '/forgot-password'
+    | '/hr'
+    | '/login'
+    | '/register'
+    | '/employee/'
+    | '/hr/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EmployeeRoute: typeof EmployeeRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  HrRoute: typeof HrRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +131,87 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/employee': {
+      id: '/employee'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof EmployeeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr': {
+      id: '/hr'
+      path: '/hr'
+      fullPath: '/hr'
+      preLoaderRoute: typeof HrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employee/': {
+      id: '/employee/'
+      path: '/'
+      fullPath: '/employee/'
+      preLoaderRoute: typeof EmployeeIndexRouteImport
+      parentRoute: typeof EmployeeRoute
+    }
+    '/hr/': {
+      id: '/hr/'
+      path: '/'
+      fullPath: '/hr/'
+      preLoaderRoute: typeof HrIndexRouteImport
+      parentRoute: typeof HrRoute
+    }
   }
 }
 
+interface EmployeeRouteChildren {
+  EmployeeIndexRoute: typeof EmployeeIndexRoute
+}
+
+const EmployeeRouteChildren: EmployeeRouteChildren = {
+  EmployeeIndexRoute: EmployeeIndexRoute,
+}
+
+const EmployeeRouteWithChildren = EmployeeRoute._addFileChildren(
+  EmployeeRouteChildren,
+)
+
+interface HrRouteChildren {
+  HrIndexRoute: typeof HrIndexRoute
+}
+
+const HrRouteChildren: HrRouteChildren = {
+  HrIndexRoute: HrIndexRoute,
+}
+
+const HrRouteWithChildren = HrRoute._addFileChildren(HrRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EmployeeRoute: EmployeeRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  HrRoute: HrRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
