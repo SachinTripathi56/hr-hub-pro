@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as EmployeeIndexRouteImport } from './routes/employee.index'
 import { Route as HrIndexRouteImport } from './routes/hr.index'
+import { Route as HrDashboardRouteImport } from './routes/hr.dashboard'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const HrIndexRoute = HrIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HrRoute,
 } as any)
+const HrDashboardRoute = HrDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => HrRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/hr': typeof HrRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/hr/dashboard': typeof HrDashboardRoute
   '/employee/': typeof EmployeeIndexRoute
   '/hr/': typeof HrIndexRoute
 }
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/hr/dashboard': typeof HrDashboardRoute
   '/employee': typeof EmployeeIndexRoute
   '/hr': typeof HrIndexRoute
 }
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/hr': typeof HrRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/hr/dashboard': typeof HrDashboardRoute
   '/employee/': typeof EmployeeIndexRoute
   '/hr/': typeof HrIndexRoute
 }
@@ -97,10 +106,18 @@ export interface FileRouteTypes {
     | '/hr'
     | '/login'
     | '/register'
+    | '/hr/dashboard'
     | '/employee/'
     | '/hr/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/login' | '/register' | '/employee' | '/hr'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/hr/dashboard'
+    | '/employee'
+    | '/hr'
   id:
     | '__root__'
     | '/'
@@ -109,6 +126,7 @@ export interface FileRouteTypes {
     | '/hr'
     | '/login'
     | '/register'
+    | '/hr/dashboard'
     | '/employee/'
     | '/hr/'
   fileRoutesById: FileRoutesById
@@ -180,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HrIndexRouteImport
       parentRoute: typeof HrRoute
     }
+    '/hr/dashboard': {
+      id: '/hr/dashboard'
+      path: '/dashboard'
+      fullPath: '/hr/dashboard'
+      preLoaderRoute: typeof HrDashboardRouteImport
+      parentRoute: typeof HrRoute
+    }
   }
 }
 
@@ -196,10 +221,12 @@ const EmployeeRouteWithChildren = EmployeeRoute._addFileChildren(
 )
 
 interface HrRouteChildren {
+  HrDashboardRoute: typeof HrDashboardRoute
   HrIndexRoute: typeof HrIndexRoute
 }
 
 const HrRouteChildren: HrRouteChildren = {
+  HrDashboardRoute: HrDashboardRoute,
   HrIndexRoute: HrIndexRoute,
 }
 
