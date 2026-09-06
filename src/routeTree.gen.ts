@@ -19,6 +19,8 @@ import { Route as EmployeeIndexRouteImport } from './routes/employee.index'
 import { Route as HrIndexRouteImport } from './routes/hr.index'
 import { Route as HrDashboardRouteImport } from './routes/hr.dashboard'
 import { Route as HrEmployeesIndexRouteImport } from './routes/hr.employees.index'
+import { Route as HrEmployeesIdRouteImport } from './routes/hr.employees.$id'
+import { Route as HrEmployeesImportRouteImport } from './routes/hr.employees.import'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +72,16 @@ const HrEmployeesIndexRoute = HrEmployeesIndexRouteImport.update({
   path: '/employees/',
   getParentRoute: () => HrRoute,
 } as any)
+const HrEmployeesIdRoute = HrEmployeesIdRouteImport.update({
+  id: '/employees/$id',
+  path: '/employees/$id',
+  getParentRoute: () => HrRoute,
+} as any)
+const HrEmployeesImportRoute = HrEmployeesImportRouteImport.update({
+  id: '/employees/import',
+  path: '/employees/import',
+  getParentRoute: () => HrRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -81,6 +93,8 @@ export interface FileRoutesByFullPath {
   '/hr/dashboard': typeof HrDashboardRoute
   '/employee/': typeof EmployeeIndexRoute
   '/hr/': typeof HrIndexRoute
+  '/hr/employees/$id': typeof HrEmployeesIdRoute
+  '/hr/employees/import': typeof HrEmployeesImportRoute
   '/hr/employees/': typeof HrEmployeesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -91,6 +105,8 @@ export interface FileRoutesByTo {
   '/hr/dashboard': typeof HrDashboardRoute
   '/employee': typeof EmployeeIndexRoute
   '/hr': typeof HrIndexRoute
+  '/hr/employees/$id': typeof HrEmployeesIdRoute
+  '/hr/employees/import': typeof HrEmployeesImportRoute
   '/hr/employees': typeof HrEmployeesIndexRoute
 }
 export interface FileRoutesById {
@@ -104,6 +120,8 @@ export interface FileRoutesById {
   '/hr/dashboard': typeof HrDashboardRoute
   '/employee/': typeof EmployeeIndexRoute
   '/hr/': typeof HrIndexRoute
+  '/hr/employees/$id': typeof HrEmployeesIdRoute
+  '/hr/employees/import': typeof HrEmployeesImportRoute
   '/hr/employees/': typeof HrEmployeesIndexRoute
 }
 export interface FileRouteTypes {
@@ -118,6 +136,8 @@ export interface FileRouteTypes {
     | '/hr/dashboard'
     | '/employee/'
     | '/hr/'
+    | '/hr/employees/$id'
+    | '/hr/employees/import'
     | '/hr/employees/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -128,6 +148,8 @@ export interface FileRouteTypes {
     | '/hr/dashboard'
     | '/employee'
     | '/hr'
+    | '/hr/employees/$id'
+    | '/hr/employees/import'
     | '/hr/employees'
   id:
     | '__root__'
@@ -140,6 +162,8 @@ export interface FileRouteTypes {
     | '/hr/dashboard'
     | '/employee/'
     | '/hr/'
+    | '/hr/employees/$id'
+    | '/hr/employees/import'
     | '/hr/employees/'
   fileRoutesById: FileRoutesById
 }
@@ -224,6 +248,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HrEmployeesIndexRouteImport
       parentRoute: typeof HrRoute
     }
+    '/hr/employees/$id': {
+      id: '/hr/employees/$id'
+      path: '/employees/$id'
+      fullPath: '/hr/employees/$id'
+      preLoaderRoute: typeof HrEmployeesIdRouteImport
+      parentRoute: typeof HrRoute
+    }
+    '/hr/employees/import': {
+      id: '/hr/employees/import'
+      path: '/employees/import'
+      fullPath: '/hr/employees/import'
+      preLoaderRoute: typeof HrEmployeesImportRouteImport
+      parentRoute: typeof HrRoute
+    }
   }
 }
 
@@ -242,12 +280,16 @@ const EmployeeRouteWithChildren = EmployeeRoute._addFileChildren(
 interface HrRouteChildren {
   HrDashboardRoute: typeof HrDashboardRoute
   HrIndexRoute: typeof HrIndexRoute
+  HrEmployeesIdRoute: typeof HrEmployeesIdRoute
+  HrEmployeesImportRoute: typeof HrEmployeesImportRoute
   HrEmployeesIndexRoute: typeof HrEmployeesIndexRoute
 }
 
 const HrRouteChildren: HrRouteChildren = {
   HrDashboardRoute: HrDashboardRoute,
   HrIndexRoute: HrIndexRoute,
+  HrEmployeesIdRoute: HrEmployeesIdRoute,
+  HrEmployeesImportRoute: HrEmployeesImportRoute,
   HrEmployeesIndexRoute: HrEmployeesIndexRoute,
 }
 
